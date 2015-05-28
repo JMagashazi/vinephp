@@ -244,6 +244,22 @@ class API {
         $headerText = trim(substr($httpResponse, 0, $headerEndPosition));
 
         $bodyText = trim(substr($httpResponse, $headerEndPosition));
+		
+		//This code block prevents extra long Id numbers from being converted to floats
+        //The Ids are wrapped in quotes so they will stay intact as strings.
+		$position = 0;
+        while (!($position = strpos ($bodyText, "Id\":", $position)) === false)
+        {
+            //Quote before ID value
+            $position = strpos ($bodyText, ": ", $position);
+            $bodyText = substr_replace($bodyText, "\"", $position + 2, 0);
+            
+            //Quote after ID value
+            $position = strpos ($bodyText, ",", $position);
+            $bodyText = substr_replace($bodyText, "\"", $position, 0);
+            
+        }
+		
         $statusCode = 0;
 
         foreach (explode("\r\n", $headerText) as $i => $line) {
