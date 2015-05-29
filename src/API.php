@@ -247,7 +247,7 @@ class API {
 		
 		//Fix for 64-bit ints being converted into floats in a 32-bit environment.
 		//Wraps quotes around very long numbers.
-		$bodyText = preg_replace('/([:][ ])(\d{10}\d*)([,])/', '$1"$2"$3', $bodyText);
+		$bodyText = preg_replace('/(:\s*)(\d{10}\d*)(\s*[,}\]])/', '$1"$2"$3', $bodyText);
 		
         $statusCode = 0;
 
